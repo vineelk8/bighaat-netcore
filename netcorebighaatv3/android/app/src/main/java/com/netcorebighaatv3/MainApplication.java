@@ -13,6 +13,17 @@ import com.netcorebighaatv3.newarchitecture.MainApplicationReactNativeHost;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import android.view.View;
+import com.facebook.react.uimanager.util.ReactFindViewUtil;
+import com.netcore.android.Smartech;
+import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.Set;
+import io.hansel.core.logger.HSLLogLevel;
+import io.hansel.core.logger.HSLLogger;
+import io.hansel.hanselsdk.Hansel;
+import io.hansel.react.HanselRn;
+
 public class MainApplication extends Application implements ReactApplication {
 
   private final ReactNativeHost mReactNativeHost =
@@ -56,6 +67,34 @@ public class MainApplication extends Application implements ReactApplication {
     ReactFeatureFlags.useTurboModules = BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    Smartech.getInstance(new WeakReference<>(getApplicationContext())).initializeSdk(this);
+    HSLLogLevel.all.setEnabled(true);
+    HSLLogLevel.mid.setEnabled(true);
+    HSLLogLevel.debug.setEnabled(true);
+
+    Set<String> nativeIdSet = new HashSet<>();
+    nativeIdSet.add("hansel_ignore_view_overlay");
+    nativeIdSet.add("hansel_ignore_view");
+    nativeIdSet.add("hansel_ignore_container");
+
+    ReactFindViewUtil.addViewsListener(new ReactFindViewUtil.OnMultipleViewsFoundListener() {
+        @Override
+        public void onViewFound(final View view, String nativeID) {
+            if (nativeID.equals("hansel_ignore_view_overlay")) {
+                String[] values = view.getTag().toString().split("#");
+                int parentsLayerCount = Integer.parseInt(values[0]);
+                int childLayerIndex;
+                if (values.length < 2 || values[1].isEmpty()) {
+                    childLayerIndex = 0;
+                } else {
+                    childLayerIndex = Integer.parseInt(values[1]);
+                }
+                HanselRn.setHanselIgnoreViewTag(view, parentsLayerCount, childLayerIndex);
+            }else{
+                view.setTag(io.hansel.react.R.id.hansel_ignore_view, true);
+            }
+        }
+    }, nativeIdSet);
   }
 
   /**

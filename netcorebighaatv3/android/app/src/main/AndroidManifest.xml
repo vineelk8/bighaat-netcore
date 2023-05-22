@@ -21,6 +21,25 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="bighaatappnudges" />
+        </intent-filter>
       </activity>
+
+      <meta-data
+            android:name="SMT_APP_ID"
+            android:value="3934073882c35756940e3b3ef51aa6cd" />
+
+      <meta-data
+            android:name="HANSEL_APP_ID"
+            android:value="S2V1UG92RAAN2HCLMUS7Z9IJY" />
+
+        <meta-data
+            android:name="HANSEL_APP_KEY"
+            android:value="KABR1GW47A4QT7JWGUBXIQFYZP6P7NB8OBFJA9ZMYD2DZMGNZR" />
+
     </application>
 </manifest>

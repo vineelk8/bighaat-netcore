@@ -8,3 +8,16 @@
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
 # Add any project specific keep options here:
+
+# Smartech Base SDK
+-dontwarn com.netcore.android.**
+-keep class com.netcore.android.**{*;}
+-keep class * implements com.netcore.android.**.* {*;}
+-keep class * extends com.netcore.android.**.* {*;}
+
+-keep class com.facebook.react.views.** { *; }
+
+-dontwarn io.hansel.**
+-keep class io.hansel.**{*;}
+-keep class * implements io.hansel.**.* {*;}
+-keep class * extends io.hansel.**.* {*;}
